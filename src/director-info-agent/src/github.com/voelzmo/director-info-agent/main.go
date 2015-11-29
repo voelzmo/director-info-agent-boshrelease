@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/voelzmo/bosh-director-client/director"
 )
@@ -21,7 +22,23 @@ func main() {
 		log.Fatal(err)
 	}
 	director := director.NewDirector(args.Target, args.RootCAPath, args.ClientName, args.ClientSecret)
-	director.Deployments()
+
+	ticker := time.NewTicker(30 * time.Second)
+	quitChannel := make(chan struct{})
+	defer close(quitChannel)
+
+	go func() {
+		for {
+			select {
+			case <-ticker.C:
+				deployments := director.Deployments()
+				fmt.Printf("Here is the current list of deployments: '%s'", deployments)
+			case <-quitChannel:
+				ticker.Stop()
+				return
+			}
+		}
+	}()
 
 }
 

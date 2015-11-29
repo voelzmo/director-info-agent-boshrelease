@@ -5,4 +5,4 @@ dependencies:
 - golang-1.5.1
 
 files:
-- src/github.com/voelzmo/**/*.go
+- director-info-agent/src/github.com/voelzmo/**/*.go
