@@ -1,0 +1,9 @@
+# abort script on any command that exits with a non zero value
+set -e -x
+
+export GOROOT=$(readlink -nf /var/vcap/packages/golang-1.5.1)
+export PATH=$GOROOT/bin:$PATH
+
+export GOPATH=$PWD/director-info-agent
+go install github.com/voelzmo/director-info-agent
+cp -a $PWD/director-info-agent/bin/director-info-agent ${BOSH_INSTALL_TARGET}

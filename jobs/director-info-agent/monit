@@ -1,0 +1,5 @@
+check process director-info-agent
+  with pidfile /var/vcap/sys/run/director-info-agent/pid
+  start program "/var/vcap/jobs/director-info-agent/bin/ctl start"
+  stop program "/var/vcap/jobs/director-info-agent/bin/ctl stop"
+  group vcap

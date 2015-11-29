@@ -1,0 +1,8 @@
+---
+name: director-info-agent
+
+dependencies:
+- golang-1.5.1
+
+files:
+- src/github.com/voelzmo/**/*.go

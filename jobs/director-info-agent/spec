@@ -1,0 +1,19 @@
+---
+name: director-info-agent
+templates:
+- config/rootCA.pem.erb: config/rootCA.pem
+- bin/ctl.erb: bin/ctl
+
+packages: [ director-info-agent ]
+
+properties:
+  director_info_agent.director.adress:
+    description: "Where to find your Bosh director"
+    default: "https://127.0.0.1:25555"
+  director_info_agent.director.ca_cert:
+    description: "The CA certificate used for signing your director certificate"
+  director_info_agent.director.auth.client_name:
+    description: "The oauth client to use when contacting the director"
+    default: "director_info_agent"
+  director_info_agent.director.auth.client_secret:
+    description: "The oauth client secret to use when contacting the director"

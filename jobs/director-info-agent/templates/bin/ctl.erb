@@ -1,0 +1,32 @@
+#!/bin/bash
+
+RUN_DIR=/var/vcap/sys/run/director-info-agent
+LOG_DIR=/var/vcap/sys/log/director-info-agent
+PIDFILE=${RUN_DIR}/pid
+
+case $1 in
+
+  start)
+    mkdir -p $RUN_DIR $LOG_DIR
+    chown -R vcap:vcap $RUN_DIR $LOG_DIR
+
+    echo $$ > $PIDFILE
+
+    exec /var/vcap/packages/director-info-agent/director-info-agent <%= p('director_info_agent.director.adress') %> \
+    "../config/rootCA.pem" <%= p('director_info_agent.director.auth.client_name') %> \
+    <%= p('director_info_agent.director.auth.client_secret') %> \
+      >>  $LOG_DIR/director-info-agent.stdout.log \
+      2>> $LOG_DIR/director-info-agent.stderr.log
+
+    ;;
+
+  stop)
+    kill -9 `cat $PIDFILE`
+    rm -f $PIDFILE
+
+    ;;
+
+  *)
+    echo "Usage: ctl {start|stop}" ;;
+
+esac
