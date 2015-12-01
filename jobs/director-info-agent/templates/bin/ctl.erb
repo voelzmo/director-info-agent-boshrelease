@@ -12,7 +12,7 @@ case $1 in
 
     echo $$ > $PIDFILE
 
-    exec /var/vcap/packages/director-info-agent/director-info-agent <%= p('director.address') %>:<%= p('director.port') %> \
+    /var/vcap/packages/director-info-agent/director-info-agent <%= p('director.address') %>:<%= p('director.port') %> \
     "../config/rootCA.pem" <%= p('director_info_agent.director_account.client_id') %> \
     <%= p('director_info_agent.director_account.client_secret') %> \
       >>  $LOG_DIR/director-info-agent.stdout.log \
