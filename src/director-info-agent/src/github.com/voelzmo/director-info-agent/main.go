@@ -27,18 +27,19 @@ func main() {
 	quitChannel := make(chan struct{})
 	defer close(quitChannel)
 
-	go func() {
-		for {
-			select {
-			case <-ticker.C:
-				deployments := director.Deployments()
-				fmt.Printf("Here is the current list of deployments: '%s'", deployments)
-			case <-quitChannel:
-				ticker.Stop()
-				return
-			}
+	for {
+		fmt.Println("Waiting for a channel signal...")
+		select {
+		case <-ticker.C:
+			fmt.Println("received ticker signal")
+			deployments := director.Deployments()
+			fmt.Printf("Here is the current list of deployments: '%s'", deployments)
+		case <-quitChannel:
+			fmt.Println("received quit signal")
+			ticker.Stop()
+			return
 		}
-	}()
+	}
 
 }
 
