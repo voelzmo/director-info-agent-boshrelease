@@ -14,7 +14,9 @@ case $1 in
 
     exec /var/vcap/packages/director-info-agent/director-info-agent https://<%= p('director.address') %>:<%= p('director.port') %> \
     "/var/vcap/jobs/director-info-agent/config/rootCA.pem" <%= p('director_info_agent.director_account.client_id') %> \
-    <%= p('director_info_agent.director_account.client_secret') %> \
+    <%= p('director_info_agent.director_account.client_secret') %> <%= p('director_info_agent.mongodb.address') %> \
+    <%= p('director_info_agent.mongodb.user') %> <%= p('director_info_agent.mongodb.password') %> \
+    <%= p('director_info_agent.mongodb.db_name') %> \
       >>  $LOG_DIR/director-info-agent.stdout.log \
       2>> $LOG_DIR/director-info-agent.stderr.log
 

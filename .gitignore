@@ -3,6 +3,7 @@ config/private.yml
 releases/*.tgz
 releases/**/*.tgz
 dev_releases
+src/director-info-agent/pkg
 .blobs
 blobs
 .dev_builds

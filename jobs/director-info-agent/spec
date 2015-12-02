@@ -19,3 +19,11 @@ properties:
     default: "director_info_agent"
   director_info_agent.director_account.client_secret:
     description: "The oauth client secret to use when contacting the director"
+  director_info_agent.mongodb.address:
+    description: "Address of the mongoDB to store the data into"
+  director_info_agent.mongodb.user:
+    description: "User for the mongoDB"
+  director_info_agent.mongodb.password:
+    description: "Password for the mongoDB"
+  director_info_agent.mongodb.db_name:
+    description: "Database name for the mongoDB"
