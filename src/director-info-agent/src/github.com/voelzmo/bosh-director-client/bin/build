@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+bin=$(dirname $0)
+
+go build -o $bin/../out/bosh-director-client github.com/voelzmo/bosh-director-client

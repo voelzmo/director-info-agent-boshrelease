@@ -1,0 +1,36 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"path": "github.com/voelzmo/bosh-director-client/api",
+			"revision": "c698ceeb59b64b271ae30e9f18f44b14725d151d",
+			"revisionTime": "2015-12-06T21:36:30+01:00"
+		},
+		{
+			"path": "github.com/voelzmo/bosh-director-client/director",
+			"revision": "c698ceeb59b64b271ae30e9f18f44b14725d151d",
+			"revisionTime": "2015-12-06T21:36:30+01:00"
+		},
+		{
+			"path": "gopkg.in/mgo.v2",
+			"revision": "4d04138ffef2791c479c0c8bbffc30b34081b8d9",
+			"revisionTime": "2015-10-26T14:34:53-02:00"
+		},
+		{
+			"path": "gopkg.in/mgo.v2/bson",
+			"revision": "4d04138ffef2791c479c0c8bbffc30b34081b8d9",
+			"revisionTime": "2015-10-26T14:34:53-02:00"
+		},
+		{
+			"path": "gopkg.in/mgo.v2/internal/sasl",
+			"revision": "4d04138ffef2791c479c0c8bbffc30b34081b8d9",
+			"revisionTime": "2015-10-26T14:34:53-02:00"
+		},
+		{
+			"path": "gopkg.in/mgo.v2/internal/scram",
+			"revision": "4d04138ffef2791c479c0c8bbffc30b34081b8d9",
+			"revisionTime": "2015-10-26T14:34:53-02:00"
+		}
+	]
+}
