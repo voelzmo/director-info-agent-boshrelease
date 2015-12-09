@@ -1,10 +1,10 @@
 package api
 
 type Task struct {
-	ID          string `json:"id"`
+	ID          int    `json:"id"`
 	State       string `json:"state"`
 	Description string `json:"description"`
-	Timestamp   string `json:"timestamp"`
+	Timestamp   int    `json:"timestamp"`
 	Result      string `json:"result"`
 	User        string `json:"user"`
 }

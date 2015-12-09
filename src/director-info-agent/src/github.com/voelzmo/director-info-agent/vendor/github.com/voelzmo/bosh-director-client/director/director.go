@@ -11,6 +11,8 @@ type Director interface {
 	Status() api.Status
 	Login() api.Login
 	Deployments() []api.Deployment
+	Tasks() []api.Task
+	TaskDetails(id int, outputType string) string
 }
 
 type director struct {
@@ -60,20 +62,23 @@ func (d *director) Deployments() []api.Deployment {
 	return deployments
 }
 
-//
-// func (d *director) Tasks() []api.Task {
-// 	var tasks []api.Task
-//
-// 	directorClient := NewClient(d.rootCAPath)
-//
-// 	resp, err := directorClient.Get(fmt.Sprintf("%s/tasks", d.target))
-// 	if err != nil {
-// 		log.Fatal("Error getting director task: %s", err)
-// 	}
-// 	defer resp.Body.Close()
-//
-// 	body, _ := ioutil.ReadAll(resp.Body)
-// 	json.Unmarshal(body, &tasks)
-//
-// 	return tasks
-// }
+func (d *director) Tasks() []api.Task {
+	var tasks []api.Task
+
+	login := d.Login()
+	auth := fmt.Sprintf("%s %s", login.TokenType, login.AccessToken)
+	GetClient(d.target, d.rootCAPath, auth).RequestAndParseJSON("GET", "/tasks", make(map[string]string), nil, &tasks)
+
+	return tasks
+}
+
+func (d *director) TaskDetails(id int, outputType string) string {
+	var taskDetails string
+
+	login := d.Login()
+	auth := fmt.Sprintf("%s %s", login.TokenType, login.AccessToken)
+	path := fmt.Sprintf("/tasks/%v/output?type=%s", id, outputType)
+	taskDetails, _ = GetClient(d.target, d.rootCAPath, auth).RequestAndParseString("GET", path, make(map[string]string), nil)
+
+	return taskDetails
+}

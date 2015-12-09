@@ -29,6 +29,7 @@ func NewClient(rootCAPath string) *http.Client {
 
 type Client interface {
 	RequestAndParseJSON(string, string, map[string]string, []byte, interface{}) (interface{}, error)
+	RequestAndParseString(string, string, map[string]string, []byte) (string, error)
 }
 
 type authorizingClient struct {
@@ -37,13 +38,40 @@ type authorizingClient struct {
 	auth       string
 }
 
+func (c *authorizingClient) RequestAndParseString(method string, path string, headers map[string]string, bodyContent []byte) (string, error) {
+	resp, err := c.request(method, path, headers, bodyContent)
+	if err != nil {
+		log.Fatalf("Error contacting director: %s", err)
+	}
+	defer resp.Body.Close()
+
+	responseBody, _ := ioutil.ReadAll(resp.Body)
+
+	return string(responseBody), nil
+}
+
 func (c *authorizingClient) RequestAndParseJSON(method string, path string, headers map[string]string, bodyContent []byte, jsonObject interface{}) (interface{}, error) {
+
+	resp, err := c.request(method, path, headers, bodyContent)
+	if err != nil {
+		log.Fatalf("Error contacting director: %s", err)
+	}
+	defer resp.Body.Close()
+
+	responseBody, _ := ioutil.ReadAll(resp.Body)
+	json.Unmarshal(responseBody, &jsonObject)
+
+	return jsonObject, nil
+}
+
+func (c *authorizingClient) request(method string, path string, headers map[string]string, bodyContent []byte) (*http.Response, error) {
 	var body io.Reader
 	if bodyContent != nil {
 		body = bytes.NewReader(bodyContent)
 	}
 
 	req, _ := http.NewRequest(method, fmt.Sprintf("%s%s", c.host, path), body)
+
 	if c.auth != "" {
 		req.Header.Add("Authorization", c.auth)
 	}
@@ -55,14 +83,9 @@ func (c *authorizingClient) RequestAndParseJSON(method string, path string, head
 	directorClient := NewClient(c.rootCAPath)
 	resp, err := directorClient.Do(req)
 	if err != nil {
-		log.Fatal("Error getting director deployments: %s", err)
+		return nil, fmt.Errorf("Error contacting director: %s", err)
 	}
-	defer resp.Body.Close()
-
-	responseBody, _ := ioutil.ReadAll(resp.Body)
-	json.Unmarshal(responseBody, &jsonObject)
-
-	return jsonObject, nil
+	return resp, nil
 }
 
 func GetClient(host string, rootCAPath string, auth string) Client {
