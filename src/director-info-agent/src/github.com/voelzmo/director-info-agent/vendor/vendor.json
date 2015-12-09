@@ -3,6 +3,11 @@
 	"ignore": "test",
 	"package": [
 		{
+			"path": "github.com/voelzmo/bosh-director-client",
+			"revision": "c0b617c6b7cc29d165508126764ae9ff573381aa",
+			"revisionTime": "2015-12-08T21:48:50+01:00"
+		},
+		{
 			"path": "github.com/voelzmo/bosh-director-client/api",
 			"revision": "c698ceeb59b64b271ae30e9f18f44b14725d151d",
 			"revisionTime": "2015-12-06T21:36:30+01:00"
